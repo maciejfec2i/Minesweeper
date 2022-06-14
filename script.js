@@ -4,6 +4,9 @@ function randomNum(boardSize) {
 }
 
 function checkMinePositionExists(positions, newPosition) {
+    /*
+    Checks if a mine position exists to prevent repeated mine positions.
+    */
 
     if(positions.length > 0) {
         for(let i = 0; i < positions.length; i++) {
@@ -16,7 +19,24 @@ function checkMinePositionExists(positions, newPosition) {
     return false;
 }
 
+function assignMine(minePositions, x, y) {
+    /*
+    Assigns a mine if the random mine coordinate matches with a coordinate on the board.
+    */
+
+    for(let i = 0; i < minePositions.length; i++) {
+        if(minePositions[i].x === x && minePositions[i].y === y) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 function getMinePositions(boardSize) {
+    /*
+    Generates and returns random mine positions.
+    */
     
     const positions = [];
 
@@ -36,7 +56,7 @@ function getMinePositions(boardSize) {
     return positions;
 }
 
-function createBoard(boardSize, numOfMines) {
+function createBoard(boardSize) {
 
     const board = [];
     const minePositions = getMinePositions(boardSize);
@@ -53,7 +73,8 @@ function createBoard(boardSize, numOfMines) {
             const tile = {
                 element,
                 x,
-                y
+                y,
+                mine: assignMine(minePositions, x, y)
             }
 
             row.push(tile);
@@ -72,11 +93,13 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const canvas = document.getElementById("canvas");
 
-    const board = createBoard(BOARD_SIZE, NUM_OF_MINES);
+    const board = createBoard(BOARD_SIZE);
     
     board.forEach(row => {
         row.forEach(tile => {
             canvas.append(tile.element);
         })
     })
+
+    console.log(board);
 })
