@@ -7,7 +7,7 @@
 }
 
 body {
-    background: #eeeeee;
+    background: #cccccc;
     font-family: "Space Mono", monospace;
 }
 
@@ -24,6 +24,7 @@ body {
 
 .canvas-container {
     background-color: #898989;
+    box-shadow: 0 0 2rem #555555;
 }
 
 .title {
@@ -39,7 +40,7 @@ body {
 }
 
 #canvas {
-    background: #eeeeee;
+    background: #898989;
     display: inline-grid;
     grid-template-columns: repeat(10, 70px);
     grid-template-rows: repeat(10, 70px);
@@ -47,5 +48,6 @@ body {
 }
 
 .hidden {
-    background: #696969;
+    background: #595959;
+    cursor: pointer;
 }
