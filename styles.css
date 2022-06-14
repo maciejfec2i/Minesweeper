@@ -60,3 +60,11 @@ body {
     background: blue;
     cursor: pointer;
 }
+
+.revealed {
+    background: #a9a9a9;
+    font-size: 1.4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
