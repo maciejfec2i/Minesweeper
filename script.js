@@ -29,4 +29,12 @@ function createBoard(boardSize) {
 document.addEventListener("DOMContentLoaded", () => {
 
     const canvas = document.getElementById("canvas");
+
+    const board = createBoard(10);
+    
+    board.forEach(row => {
+        row.forEach(tile => {
+            canvas.append(tile.element);
+        })
+    })
 })
