@@ -86,15 +86,41 @@ function createBoard(boardSize, numOfMines) {
     return board;
 }
 
-function flagTile(tile) {
+function flagTile(tile, numOfFlags) {
 
     if(tile.element.classList.contains("hidden")) {
-        tile.element.classList.remove("hidden");
-        tile.element.classList.add("flag");
+        if(numOfFlags > 0) {
+            tile.element.classList.remove("hidden");
+            tile.element.classList.add("flag");
+            return "flag";
+        }
     }
-    else if(tile.element.classList.contains("flag")) {
+    
+    if(tile.element.classList.contains("flag")) {
         tile.element.classList.remove("flag");
         tile.element.classList.add("hidden");
+
+        return "hidden";
+    }
+}
+
+function clearTileClassList(tile) {
+
+    while(tile.element.classList.length > 0) {
+        tile.element.classList.remove(tile.element.classList.item(0));
+    }
+}
+
+function showTile(tile) {
+
+    if(!tile.element.classList.contains("hidden")) {
+        return;
+    }
+    
+    if(tile.mine) {
+       clearTileClassList(tile);
+       tile.element.classList.add("mine");
+       return;
     }
 }
 
@@ -102,7 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const BOARD_SIZE = 10;
     const NUM_OF_MINES = 10;
-    const NUM_OF_FLAGS = NUM_OF_MINES;
+    let NUM_OF_FLAGS = NUM_OF_MINES;
     
     const canvas = document.getElementById("canvas");
 
@@ -113,11 +139,19 @@ document.addEventListener("DOMContentLoaded", () => {
             canvas.append(tile.element);
 
             tile.element.addEventListener("click", (event) => {
-                
+                showTile(tile);
             })
+            
             tile.element.addEventListener("contextmenu", (e) => {
                 e.preventDefault();
-                flagTile(tile);
+                
+                let flagStatus = flagTile(tile, NUM_OF_FLAGS);
+                if(flagStatus === "flag") {
+                    NUM_OF_FLAGS--;
+                }
+                if(flagStatus === "hidden") {
+                    NUM_OF_FLAGS++;
+                }
             })
         })
     })
