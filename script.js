@@ -113,9 +113,7 @@ function clearTileClassList(tile) {
     Clears the tiles styling.
     */
 
-    while(tile.element.classList.length > 0) {
-        tile.element.classList.remove(tile.element.classList.item(0));
-    }
+    tile.element.classList.remove(tile.element.classList.item(0));
 }
 
 function getMinedTiles(adjacentTiles) {
@@ -123,13 +121,9 @@ function getMinedTiles(adjacentTiles) {
     const minedTiles = [];
 
     adjacentTiles.forEach((tile) => {
-        try {
-            if(tile.mine) {
-                minedTiles.push(tile);
-            }
-        }
-        catch(err) {
 
+        if(tile.mine) {
+            minedTiles.push(tile);
         }
     })
 
@@ -142,12 +136,16 @@ function getAdjacentTiles(board, tile) {
     
     for(let x = -1; x <= 1; x++) {
         for(let y = -1; y <= 1; y++) {
-            try {
-                const validTile = board[tile.x + x][tile.y + y];
-                tiles.push(validTile);
-            }
-            catch(err) {
-
+            
+            const validRow = board.includes(board[tile.x + x]);
+            
+            if(validRow) {
+                const validCol = board[tile.x + x].includes(board[tile.x + x][tile.y + y]);
+                
+                if(validCol) {
+                    const validTile = board[tile.x + x][tile.y + y];
+                    tiles.push(validTile);
+                }
             }
         }
     }
@@ -170,7 +168,7 @@ function showTile(board, tile) {
     clearTileClassList(tile);
     tile.element.classList.add("revealed");
         
-    let adjacentTiles = getAdjacentTiles(board, tile)
+    let adjacentTiles = getAdjacentTiles(board, tile);
     let minedTiles = getMinedTiles(adjacentTiles);
     let numOfMinesByTile = minedTiles.length;
         
@@ -178,7 +176,9 @@ function showTile(board, tile) {
         tile.element.innerHTML = numOfMinesByTile;
     }
     else if(numOfMinesByTile === 0) {
-        
+        adjacentTiles.forEach((tile) => {
+            showTile(board, tile);
+        })
     }
 }
 
