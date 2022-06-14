@@ -44,7 +44,7 @@ body {
     display: inline-grid;
     grid-template-columns: repeat(10, 70px);
     grid-template-rows: repeat(10, 70px);
-    gap: 2px;
+    gap: 3px;
 }
 
 .hidden {
