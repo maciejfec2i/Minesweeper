@@ -51,3 +51,12 @@ body {
     background: #595959;
     cursor: pointer;
 }
+
+.mine {
+    background: red;
+}
+
+.flag {
+    background: blue;
+    cursor: pointer;
+}
