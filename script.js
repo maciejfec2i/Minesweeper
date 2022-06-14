@@ -33,14 +33,14 @@ function assignMine(minePositions, x, y) {
     return false;
 }
 
-function getMinePositions(boardSize) {
+function getMinePositions(boardSize, numOfMines) {
     /*
     Generates and returns random mine positions.
     */
     
     const positions = [];
 
-    while(positions.length < boardSize) {
+    while(positions.length < numOfMines) {
 
         const position = {
             x: randomNum(boardSize),
@@ -48,6 +48,7 @@ function getMinePositions(boardSize) {
         }
 
         const minePositionExists = checkMinePositionExists(positions, position);
+        
         if(!minePositionExists) {
             positions.push(position);
         }
@@ -56,11 +57,10 @@ function getMinePositions(boardSize) {
     return positions;
 }
 
-function createBoard(boardSize) {
+function createBoard(boardSize, numOfMines) {
 
     const board = [];
-    const minePositions = getMinePositions(boardSize);
-    console.log(minePositions);
+    const minePositions = getMinePositions(boardSize, numOfMines);
 
     for(let x = 0; x < boardSize; x++) {
         const row =[];
@@ -86,19 +86,44 @@ function createBoard(boardSize) {
     return board;
 }
 
+function flagTile(tile) {
+
+    if(tile.element.classList.contains("hidden")) {
+        tile.element.classList.remove("hidden");
+        tile.element.classList.add("flag");
+    }
+    else if(tile.element.classList.contains("flag")) {
+        tile.element.classList.remove("flag");
+        tile.element.classList.add("hidden");
+    }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
 
     const BOARD_SIZE = 10;
     const NUM_OF_MINES = 10;
+    const NUM_OF_FLAGS = NUM_OF_MINES;
     
     const canvas = document.getElementById("canvas");
 
-    const board = createBoard(BOARD_SIZE);
+    const board = createBoard(BOARD_SIZE, NUM_OF_MINES);
     
     board.forEach(row => {
         row.forEach(tile => {
             canvas.append(tile.element);
+
+            tile.element.addEventListener("click", (event) => {
+                
+            })
+            tile.element.addEventListener("contextmenu", (e) => {
+                e.preventDefault();
+                flagTile(tile);
+            })
         })
+    })
+
+    canvas.addEventListener("contextmenu", (e) => {
+        e.preventDefault();
     })
 
     console.log(board);
