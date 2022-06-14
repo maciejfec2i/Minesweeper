@@ -87,11 +87,15 @@ function createBoard(boardSize, numOfMines) {
 }
 
 function flagTile(tile, numOfFlags) {
+    /*
+    Places or removes a flag based on user choice.
+    */
 
     if(tile.element.classList.contains("hidden")) {
         if(numOfFlags > 0) {
             tile.element.classList.remove("hidden");
             tile.element.classList.add("flag");
+            
             return "flag";
         }
     }
@@ -105,13 +109,53 @@ function flagTile(tile, numOfFlags) {
 }
 
 function clearTileClassList(tile) {
+    /*
+    Clears the tiles styling.
+    */
 
     while(tile.element.classList.length > 0) {
         tile.element.classList.remove(tile.element.classList.item(0));
     }
 }
 
-function showTile(tile) {
+function getMinedTiles(adjacentTiles) {
+
+    const minedTiles = [];
+
+    adjacentTiles.forEach((tile) => {
+        try {
+            if(tile.mine) {
+                minedTiles.push(tile);
+            }
+        }
+        catch(err) {
+
+        }
+    })
+
+    return minedTiles;
+}
+
+function getAdjacentTiles(board, tile) {
+
+    const tiles = [];
+    
+    for(let x = -1; x <= 1; x++) {
+        for(let y = -1; y <= 1; y++) {
+            try {
+                const validTile = board[tile.x + x][tile.y + y];
+                tiles.push(validTile);
+            }
+            catch(err) {
+
+            }
+        }
+    }
+
+    return tiles;
+}
+
+function showTile(board, tile) {
 
     if(!tile.element.classList.contains("hidden")) {
         return;
@@ -120,7 +164,21 @@ function showTile(tile) {
     if(tile.mine) {
        clearTileClassList(tile);
        tile.element.classList.add("mine");
-       return;
+       return "mine";
+    }
+
+    clearTileClassList(tile);
+    tile.element.classList.add("revealed");
+        
+    let adjacentTiles = getAdjacentTiles(board, tile)
+    let minedTiles = getMinedTiles(adjacentTiles);
+    let numOfMinesByTile = minedTiles.length;
+        
+    if(numOfMinesByTile > 0) {
+        tile.element.innerHTML = numOfMinesByTile;
+    }
+    else if(numOfMinesByTile === 0) {
+        
     }
 }
 
@@ -138,8 +196,8 @@ document.addEventListener("DOMContentLoaded", () => {
         row.forEach(tile => {
             canvas.append(tile.element);
 
-            tile.element.addEventListener("click", (event) => {
-                showTile(tile);
+            tile.element.addEventListener("click", () => {
+                showTile(board, tile);
             })
             
             tile.element.addEventListener("contextmenu", (e) => {
@@ -159,6 +217,4 @@ document.addEventListener("DOMContentLoaded", () => {
     canvas.addEventListener("contextmenu", (e) => {
         e.preventDefault();
     })
-
-    console.log(board);
 })
