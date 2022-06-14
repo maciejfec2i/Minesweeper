@@ -40,4 +40,12 @@ body {
 
 #canvas {
     background: #eeeeee;
+    display: inline-grid;
+    grid-template-columns: repeat(10, 70px);
+    grid-template-rows: repeat(10, 70px);
+    gap: 2px;
+}
+
+.hidden {
+    background: #696969;
 }
