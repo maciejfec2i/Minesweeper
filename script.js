@@ -95,6 +95,7 @@ function flagTile(tile, numOfFlags) {
         if(numOfFlags > 0) {
             tile.element.classList.remove("hidden");
             tile.element.classList.add("flag");
+            tile.element.innerHTML = '<img src="./img/flag.svg">';
             
             return "flag";
         }
@@ -103,6 +104,7 @@ function flagTile(tile, numOfFlags) {
     if(tile.element.classList.contains("flag")) {
         tile.element.classList.remove("flag");
         tile.element.classList.add("hidden");
+        tile.element.innerHTML = '';
 
         return "hidden";
     }
@@ -165,6 +167,7 @@ function showTile(board, tile) {
     if(tile.mine) {
        clearTileClassList(tile);
        tile.element.classList.add("mine");
+       tile.element.innerHTML = '<img src="./img/bomb.svg">';
        return "mine";
     }
 
