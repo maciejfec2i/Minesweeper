@@ -131,6 +131,9 @@ function getMinedTiles(adjacentTiles) {
 }
 
 function getAdjacentTiles(board, tile) {
+    /*
+    Grabs the tiles adjacent to the clicked tile.
+    */
 
     const tiles = [];
     
@@ -187,6 +190,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const BOARD_SIZE = 10;
     const NUM_OF_MINES = 10;
     let NUM_OF_FLAGS = NUM_OF_MINES;
+    let gameOver = false;
     
     const canvas = document.getElementById("canvas");
 
@@ -196,21 +200,41 @@ document.addEventListener("DOMContentLoaded", () => {
         row.forEach(tile => {
             canvas.append(tile.element);
 
-            tile.element.addEventListener("click", () => {
-                showTile(board, tile);
-            })
             
+            tile.element.addEventListener("click", () => {
+                
+                if(!gameOver) {
+                    let result = showTile(board, tile);
+
+                    if(result === "mine") {
+                        gameOver = true;
+
+                    }
+                    if(gameOver) {
+                        board.forEach(row => {
+                            row.forEach(tile => {
+                                showTile(board, tile);
+                            })
+                        })
+                    }
+                }
+            })
+                
             tile.element.addEventListener("contextmenu", (e) => {
                 e.preventDefault();
+                    
+                if(!gameOver) {
+                    let flagStatus = flagTile(tile, NUM_OF_FLAGS);
                 
-                let flagStatus = flagTile(tile, NUM_OF_FLAGS);
-                if(flagStatus === "flag") {
-                    NUM_OF_FLAGS--;
-                }
-                if(flagStatus === "hidden") {
-                    NUM_OF_FLAGS++;
+                    if(flagStatus === "flag") {
+                        NUM_OF_FLAGS--;
+                    }
+                    if(flagStatus === "hidden") {
+                        NUM_OF_FLAGS++;
+                    }
                 }
             })
+
         })
     })
 
