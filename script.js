@@ -206,7 +206,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     let result = showTile(board, tile);
 
                     if(result === "mine") {
-                        // gameOver = true;
+                        gameOver = true;
 
                     }
                     
