@@ -191,9 +191,13 @@ function showTile(board, tile) {
 document.addEventListener("DOMContentLoaded", () => {
 
     const BOARD_SIZE = 10;
-    const NUM_OF_MINES = 10;
+    const NUM_OF_MINES = 15;
     let NUM_OF_FLAGS = NUM_OF_MINES;
     let gameOver = false;
+    
+    const flagsLeftText = document.getElementById("flags");
+    
+    flagsLeftText.textContent = "Flags left: " + NUM_OF_FLAGS;
     
     const canvas = document.getElementById("canvas");
 
@@ -231,9 +235,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 
                     if(flagStatus === "flag") {
                         NUM_OF_FLAGS--;
+                        flagsLeftText.textContent = "Flags left: " + NUM_OF_FLAGS;
                     }
                     if(flagStatus === "hidden") {
                         NUM_OF_FLAGS++;
+                        flagsLeftText.textContent = "Flags left: " + NUM_OF_FLAGS;
                     }
                 }
             })
