@@ -199,7 +199,6 @@ document.addEventListener("DOMContentLoaded", () => {
     board.forEach(row => {
         row.forEach(tile => {
             canvas.append(tile.element);
-
             
             tile.element.addEventListener("click", () => {
                 
@@ -207,9 +206,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     let result = showTile(board, tile);
 
                     if(result === "mine") {
-                        gameOver = true;
+                        // gameOver = true;
 
                     }
+                    
                     if(gameOver) {
                         board.forEach(row => {
                             row.forEach(tile => {
